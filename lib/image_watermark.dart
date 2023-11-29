@@ -44,11 +44,10 @@ class ImageWatermark {
     ///Add Watermark
     ui.drawString(
       originalImage,
-      font ?? ui.arial_48,
-      dstX,
-      dstY,
       watermarkText,
-      color: color.value,
+      font: font ?? ui.arial48,
+      x: dstX,
+      y: dstY,
       rightJustify: rightJustify,
     );
 
@@ -71,38 +70,38 @@ class ImageWatermark {
   ///   color: //Text color (default black)
   /// );
   /// ```
-  static Future<Uint8List> addTextWatermarkCentered({
-    ///Image converted to Uint8List
-    required Uint8List imgBytes,
+  // static Future<Uint8List> addTextWatermarkCentered({
+  //   ///Image converted to Uint8List
+  //   required Uint8List imgBytes,
 
-    ///The text
-    required String watermarktext,
+  //   ///The text
+  //   required String watermarktext,
 
-    ///Text font type
-    ui.BitmapFont? font,
+  //   ///Text font type
+  //   ui.BitmapFont? font,
 
-    ///Text color (default black)
-    Color color = Colors.black,
-  }) async {
-    ///Original Image
-    final originalImage = ui.decodeImage(imgBytes)!;
+  //   ///Text color (default black)
+  //   Color color = Colors.black,
+  // }) async {
+  //   ///Original Image
+  //   final originalImage = ui.decodeImage(imgBytes)!;
 
-    ///Add Watermark
-    ui.drawStringCentered(
-      originalImage,
-      font ?? ui.arial_48,
-      watermarktext,
-      color: color.value,
-    );
+  //   ///Add Watermark
+  //   ui.draw(
+  //     originalImage,
+  //     font: font ?? ui.arial48,
+  //     watermarktext,
+  //     color: color.value,
+  //   );
 
-    ///Encode image to PNG
-    final wmImage = ui.encodePng(originalImage);
+  //   ///Encode image to PNG
+  //   final wmImage = ui.encodePng(originalImage);
 
-    ///Get the result
-    final result = Uint8List.fromList(wmImage);
+  //   ///Get the result
+  //   final result = Uint8List.fromList(wmImage);
 
-    return result;
-  }
+  //   return result;
+  // }
 
   ///This method adds the image that is indicated as a watermark,
   ///the parameters are the following:
@@ -132,16 +131,8 @@ class ImageWatermark {
 
     // add watermark over originalImage
     // initialize width and height of watermark image
-    final image = ui.Image(imgHeight, imgWidth);
-    ui.drawImage(image, watermark);
-
-    // give position to watermark over image
-    ui.copyInto(
-      original,
-      image,
-      dstX: dstX,
-      dstY: dstY,
-    );
+    final image = ui.Image(height:imgHeight, width:imgWidth);
+    ui.compositeImage(image, watermark, dstX: dstX, dstY: dstY);
 
     ///Encode image to PNG
     final wmImage = ui.encodePng(original);
